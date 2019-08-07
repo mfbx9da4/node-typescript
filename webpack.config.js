@@ -1,14 +1,14 @@
-const path = require('path');
+const path = require('path')
 
-const PluginClean = require('clean-webpack-plugin');
-const PluginFriendlyErrors = require('friendly-errors-webpack-plugin');
+const PluginClean = require('clean-webpack-plugin')
+const PluginFriendlyErrors = require('friendly-errors-webpack-plugin')
 
 module.exports = {
   mode: 'production',
 
   target: 'node',
 
-  entry: './src/entry.ts',
+  entry: './src/index.ts',
 
   output: {
     path: path.resolve(__dirname, 'dist'),
@@ -33,4 +33,4 @@ module.exports = {
   plugins: [new PluginClean(), new PluginFriendlyErrors()],
 
   stats: 'errors-only',
-};
+}
