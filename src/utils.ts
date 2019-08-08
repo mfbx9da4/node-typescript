@@ -3,7 +3,7 @@ import perf from 'perf_hooks'
 import { writeData } from './writeData'
 import { indexOfSortedRef } from './indexOfSorted'
 
-export function expect(bool) {
+export function assert(bool) {
   if (bool) {
     console.log('✅')
   } else {
@@ -32,7 +32,7 @@ export function generateSorted(num: number): Array<number> {
   return out
 }
 
-export function runTest(fn) {
+export function runTest(fn, includeRef = false) {
   const labels = []
   const IndexOf = []
   const IndexOfSorted = []
@@ -41,32 +41,42 @@ export function runTest(fn) {
   let endSize = Math.pow(10, 7)
   let increment = (endSize - arraySize) / 8
   for (let i = 0; i < 8; i++) {
+    // Create array
     var num = Math.random() * 100
     // arraySize = 10 * i
     // arraySize = Math.pow(10, i)
     arraySize += increment
     labels.push(`${Math.floor(arraySize / 1000000)}m numbers`)
     var testArray = generateSorted(arraySize)
-    // var _indexOfSortedRef = time(() => indexOfSortedRef(num, testArray))
-    // IndexOfSortedRef.push(_indexOfSortedRef)
+
+    // time them
+    if (includeRef) {
+      var _indexOfSortedRef = time(() => indexOfSortedRef(num, testArray))
+      IndexOfSortedRef.push(_indexOfSortedRef)
+    }
     var _indexOfSorted = time(() => fn(num, testArray))
     IndexOfSorted.push(_indexOfSorted)
     var _indexOf = time(() => testArray.indexOf(num))
     IndexOf.push(_indexOf)
+
+    // Log
     console.log('Size of array', arraySize)
     console.log(_indexOf)
     console.log(_indexOfSorted)
   }
-  return {
+
+  const out = {
     labels,
     IndexOf,
     IndexOfSorted,
-    // IndexOfSortedRef,
   }
+  if (includeRef) out['IndexOfSortedRef'] = IndexOfSortedRef
+
+  return out
 }
 
-export function runTestAndWriteData(fn) {
-  const data = runTest(fn)
+export function runTestAndWriteData(fn, includeRef = false) {
+  const data = runTest(fn, includeRef)
   writeData(data)
   return data
 }

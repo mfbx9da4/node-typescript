@@ -31,13 +31,13 @@ var data = {
 }
 
 function createDataset(label, data, i) {
-  const colors = ['crimson', 'purple', 'blue']
+  const colors = ['crimson', 'purple', '#27ae60']
   return {
     label,
     data,
     fill: false,
     borderColor: colors[i % colors.length],
-    borderWidth: 5,
+    borderWidth: 7,
   }
 }
 
