@@ -5,6 +5,7 @@
   "scripts": {
     "build": "webpack",
     "dev": "nodemon src/index.ts",
+    "dev:dewatch": "dewatch src/index.ts",
     "dev:debug": "nodemon --inspect=5858 src/index.ts",
     "fmt": "prettier --write '**/*.{js,ts}'",
     "fmt:p": "prettier-package-json --write",
